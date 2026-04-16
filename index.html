@@ -22,14 +22,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body,html,.body-wrapper,.hl-page-creator,.hl_page-creator,#preview-container,.container-fluid,
-[class*="hl-"],div[id*="section"],div[class*="section"]{
-  background:#0d1017 !important;color:#ffffff !important;
-}
-body{background:var(--bg) !important;color:var(--white) !important;font-family:'Inter',sans-serif;overflow-x:hidden;max-width:100vw;}
-.container-fluid,.hl-page-creator,.hl_page-creator,#preview-container,.body-wrapper{
-  padding:0 !important;margin:0 !important;max-width:100% !important;width:100% !important;
-}
+body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden;}
 
 /* ── TOP META BAR ── */
 .meta-bar{
@@ -459,8 +452,8 @@ body{background:var(--bg) !important;color:var(--white) !important;font-family:'
 .logo-chip img{height:42px;width:auto;display:block;filter:grayscale(1) brightness(2);transition:filter .3s;}
 .logo-chip:hover img{filter:grayscale(0) brightness(1);}
 @media(max-width:768px){
-  .logos-bar{padding:24px 16px;}
   .logos-row{gap:18px;}
+  .logos-bar{padding:24px 16px;}
   .logo-chip img{height:32px;}
 }
 
@@ -580,7 +573,6 @@ footer a{color:var(--muted);text-decoration:none;}
       </button>
       <p class="form-note">🔒 Acceso 100% gratuito · Sin spam</p>
     </form>
-    </div>
   </div>
 
   <!-- RIGHT – PHOTO -->
