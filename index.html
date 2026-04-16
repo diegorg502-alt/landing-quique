@@ -22,7 +22,15 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden;}
+/* GHL overrides */
+body,html,.body-wrapper,.hl-page-creator,.hl_page-creator,#preview-container,.container-fluid,
+[class*="hl-"],div[id*="section"],div[class*="section"]{
+  background:#0d1017 !important;color:#ffffff !important;
+}
+.container-fluid,.hl-page-creator,.hl_page-creator,#preview-container,.body-wrapper{
+  padding:0 !important;margin:0 !important;max-width:100% !important;width:100% !important;
+}
+body{background:var(--bg) !important;color:var(--white) !important;font-family:'Inter',sans-serif;overflow-x:hidden;max-width:100vw;}
 
 /* ── TOP META BAR ── */
 .meta-bar{
@@ -436,25 +444,25 @@ body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;over
 
 /* ── LOGOS ── */
 .logos-bar{
-  padding:32px 24px;
+  padding:50px 24px;
   background:var(--bg2) !important;
   border-top:1px solid rgba(255,255,255,0.05);
   border-bottom:1px solid rgba(255,255,255,0.05);
   width:100%;
 }
-.logos-label{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);text-align:center;margin-bottom:18px;}
-.logos-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:28px;}
+.logos-label{font-size:14px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);text-align:center;margin-bottom:28px;}
+.logos-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:40px;}
 .logo-chip{
   display:flex;align-items:center;justify-content:center;
   opacity:0.5;transition:opacity .3s;
 }
 .logo-chip:hover{opacity:1;}
-.logo-chip img{height:42px;width:auto;display:block;filter:grayscale(1) brightness(2);transition:filter .3s;}
+.logo-chip img{height:56px;width:auto;display:block;filter:grayscale(1) brightness(2);transition:filter .3s;}
 .logo-chip:hover img{filter:grayscale(0) brightness(1);}
 @media(max-width:768px){
-  .logos-row{gap:18px;}
-  .logos-bar{padding:24px 16px;}
-  .logo-chip img{height:32px;}
+  .logos-bar{padding:32px 16px;}
+  .logos-row{gap:24px;}
+  .logo-chip img{height:40px;}
 }
 
 /* ── DESKTOP LARGE – bigger text ── */
