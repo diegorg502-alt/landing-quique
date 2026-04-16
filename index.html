@@ -555,17 +555,17 @@ footer a{color:var(--muted);text-decoration:none;}
       <div class="hcheck"><div class="hcheck-dot"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></div>Sin dedicar más horas presenciales al gimnasio</div>
     </div>
 
-    <div class="hero-form">
+    <form class="hero-form" id="heroForm" onsubmit="return submitLead(event, this)">
       <div class="hero-form-title">Reserva tu plaza gratuita</div>
-      <input class="finput" type="text" placeholder="Tu nombre *">
-      <input class="finput" type="email" placeholder="Tu email *">
-      <input class="finput" type="tel" placeholder="Tu teléfono *">
-      <button class="btn-cta">
+      <input class="finput" type="text" name="name" placeholder="Tu nombre *" required>
+      <input class="finput" type="email" name="email" placeholder="Tu email *" required>
+      <input class="finput" type="tel" name="phone" placeholder="Tu teléfono *" required>
+      <button class="btn-cta" type="submit">
         QUIERO MI ENTRADA GRATIS
         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
       <p class="form-note">🔒 Acceso 100% gratuito · Sin spam</p>
-    </div>
+    </form>
     <!-- LOGOS inline -->
     <div class="hero-logos">
     <p class="logos-label">Es posible que me hayas visto en</p>
@@ -798,13 +798,13 @@ footer a{color:var(--muted);text-decoration:none;}
     <h2 class="section-title" style="text-align:center;">Ser entrenador libre<br>no es un sueño...<br><span style="color:var(--accent)">Es una decisión.</span></h2>
     <p class="section-sub" style="text-align:center;">Las plazas son limitadas. Reserva la tuya antes de que se agoten.</p>
 
-    <div class="cta-form-wrap">
-      <input class="finput" type="text" placeholder="Tu nombre *">
-      <input class="finput" type="email" placeholder="Tu email *">
-      <input class="finput" type="tel" placeholder="Tu teléfono *">
-      <button class="btn-cta">RESERVA TU ENTRADA GRATUITA <svg style="width:18px;height:18px;fill:#060810;" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+    <form class="cta-form-wrap" id="ctaForm" onsubmit="return submitLead(event, this)">
+      <input class="finput" type="text" name="name" placeholder="Tu nombre *" required>
+      <input class="finput" type="email" name="email" placeholder="Tu email *" required>
+      <input class="finput" type="tel" name="phone" placeholder="Tu teléfono *" required>
+      <button class="btn-cta" type="submit">RESERVA TU ENTRADA GRATUITA <svg style="width:18px;height:18px;fill:#060810;" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
       <p class="form-note" style="margin-top:14px;">🔒 Evento 100% gratuito · Sin spam · Puedes cancelar cuando quieras</p>
-    </div>
+    </form>
   </div>
 </section>
 
@@ -841,6 +841,53 @@ function updateCountdown() {
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+// ── WEBHOOK GHL ──
+const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/t5ycAtCE24zW7yCKulAw/webhook-trigger/d114e031-dffe-44f5-87e9-3cb4e7bfc4d4';
+const REDIRECT_URL = 'https://www.emprendeconquique.com/pagina-de-confirmacion';
+
+function getUTMs() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utm_source: params.get('utm_source') || '',
+    utm_medium: params.get('utm_medium') || '',
+    utm_campaign: params.get('utm_campaign') || '',
+    utm_content: params.get('utm_content') || '',
+    utm_term: params.get('utm_term') || ''
+  };
+}
+
+async function submitLead(e, form) {
+  e.preventDefault();
+  const btn = form.querySelector('.btn-cta');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = 'ENVIANDO...';
+  btn.disabled = true;
+
+  const data = {
+    name: form.querySelector('[name="name"]').value.trim(),
+    email: form.querySelector('[name="email"]').value.trim(),
+    phone: form.querySelector('[name="phone"]').value.trim(),
+    tag: 'lead-evento-vive',
+    source: 'landing-vive-entrenamiento',
+    ...getUTMs()
+  };
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      mode: 'no-cors'
+    });
+    window.location.href = REDIRECT_URL;
+  } catch (err) {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    alert('Hubo un error. Por favor, inténtalo de nuevo.');
+  }
+  return false;
+}
 </script>
 </body>
 </html>
