@@ -856,11 +856,22 @@ async function submitLead(e, form) {
   btn.innerHTML = 'ENVIANDO...';
   btn.disabled = true;
 
+  const fullName = form.querySelector('[name="name"]').value.trim();
+  const nameParts = fullName.split(' ');
+  const firstName = nameParts[0] || fullName;
+  const lastName = nameParts.slice(1).join(' ') || '';
+
   const data = {
-    name: form.querySelector('[name="name"]').value.trim(),
+    name: fullName,
+    full_name: fullName,
+    first_name: firstName,
+    last_name: lastName,
+    firstName: firstName,
+    lastName: lastName,
     email: form.querySelector('[name="email"]').value.trim(),
     phone: form.querySelector('[name="phone"]').value.trim(),
     tag: 'lead-evento-vive',
+    tags: ['lead-evento-vive'],
     source: 'landing-vive-entrenamiento',
     ...getUTMs()
   };
