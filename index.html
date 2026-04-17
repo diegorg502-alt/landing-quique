@@ -850,14 +850,13 @@ function getUTMs() {
 }
 
 async function submitLead(e, form) {
-  if (e) e.preventDefault();
-  console.log('[Form] Submit started');
+  e.preventDefault();
   const btn = form.querySelector('.btn-cta');
   const originalText = btn.innerHTML;
   btn.innerHTML = 'ENVIANDO...';
   btn.disabled = true;
 
-  const fullName = (form.querySelector('[name="name"]').value || '').trim();
+  const fullName = form.querySelector('[name="name"]').value.trim();
   const nameParts = fullName.split(' ');
   const firstName = nameParts[0] || fullName;
   const lastName = nameParts.slice(1).join(' ') || '';
@@ -869,14 +868,13 @@ async function submitLead(e, form) {
     last_name: lastName,
     firstName: firstName,
     lastName: lastName,
-    email: (form.querySelector('[name="email"]').value || '').trim(),
-    phone: (form.querySelector('[name="phone"]').value || '').trim(),
+    email: form.querySelector('[name="email"]').value.trim(),
+    phone: form.querySelector('[name="phone"]').value.trim(),
     tag: 'lead-evento-vive',
     tags: ['lead-evento-vive'],
     source: 'landing-vive-entrenamiento',
     ...getUTMs()
   };
-  console.log('[Form] Data to send:', data);
 
   try {
     await fetch(WEBHOOK_URL, {
@@ -885,34 +883,14 @@ async function submitLead(e, form) {
       body: JSON.stringify(data),
       mode: 'no-cors'
     });
-    console.log('[Form] Webhook sent, redirecting...');
     window.location.href = REDIRECT_URL;
   } catch (err) {
-    console.error('[Form] Error:', err);
     btn.innerHTML = originalText;
     btn.disabled = false;
     alert('Hubo un error. Por favor, inténtalo de nuevo.');
   }
   return false;
 }
-
-// Attach listeners via JS (more robust than inline onsubmit in GHL Custom Code)
-function attachFormListeners() {
-  const forms = document.querySelectorAll('#heroForm, #ctaForm, form.hero-form, form.cta-form-wrap');
-  console.log('[Form] Forms found:', forms.length);
-  forms.forEach(f => {
-    f.removeAttribute('onsubmit');
-    f.addEventListener('submit', function(e) { submitLead(e, f); });
-  });
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', attachFormListeners);
-} else {
-  attachFormListeners();
-}
-// Retry after 1s in case GHL re-renders
-setTimeout(attachFormListeners, 1000);
-setTimeout(attachFormListeners, 3000);
 </script>
 </body>
 </html>
