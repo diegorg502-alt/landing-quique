@@ -858,7 +858,7 @@ async function submitLead(e, form) {
   btn.innerHTML = 'ENVIANDO...';
   btn.disabled = true;
 
-  const fullName = (form.querySelector('[name=&#8221;name&#8221;]').value || '').trim();
+  const fullName = (form.querySelector('[name="name"]').value || '').trim();
   const nameParts = fullName.split(' ');
   const firstName = nameParts[0] || fullName;
   const lastName = nameParts.slice(1).join(' ') || '';
@@ -870,8 +870,8 @@ async function submitLead(e, form) {
     last_name: lastName,
     firstName: firstName,
     lastName: lastName,
-    email: (form.querySelector('[name=&#8221;email&#8221;]').value || '').trim(),
-    phone: (form.querySelector('[name=&#8221;phone&#8221;]').value || '').trim(),
+    email: (form.querySelector('[name="email"]').value || '').trim(),
+    phone: (form.querySelector('[name="phone"]').value || '').trim(),
     tag: 'lead-evento-vive',
     tags: ['lead-evento-vive'],
     source: 'landing-vive-entrenamiento',
@@ -892,7 +892,7 @@ async function submitLead(e, form) {
     console.error('[Form] Error:', err);
     btn.innerHTML = originalText;
     btn.disabled = false;
-    alert('Hubo un error. Por favor, int&#233;ntalo de nuevo.');
+    alert('Hubo un error. Por favor, inténtalo de nuevo.');
   }
   return false;
 }
